@@ -39,11 +39,6 @@ The system combines deep learning, computer vision, and OCR technologies to deli
 - EasyOCR
 - NumPy
 - Pandas
-- Pillow
-- Tkinter
-- Ultralytics
-- Colorama
-- tqdm
 
 ---
 
@@ -221,10 +216,6 @@ This project is developed using the following open-source technologies:
 - EasyOCR
 - NumPy
 - Pandas
-- Pillow
-- Tkinter
-- Colorama
-- tqdm
 
 ---
 **Annam Pranav Reddy**
