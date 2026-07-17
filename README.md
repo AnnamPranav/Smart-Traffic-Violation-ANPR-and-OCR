@@ -218,4 +218,13 @@ This project is developed using the following open-source technologies:
 - Pandas
 
 ---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Developer
+
 **Annam Pranav Reddy**
