@@ -1,35 +1,37 @@
-# AI License Plate Intelligence System
+# License Plate Recognition System
 
 Real-Time Automatic Number Plate Recognition (ANPR) using YOLOv8, EasyOCR, and OpenCV.
 
 ---
 
-# Overview
+## Overview
 
-The AI License Plate Intelligence System is a real-time Automatic Number Plate Recognition (ANPR) application that detects vehicles, identifies license plates, extracts plate text using OCR, and tracks vehicles across video frames.
+The License Plate Recognition System is a real-time Automatic Number Plate Recognition (ANPR) application that detects vehicles, identifies license plates, extracts plate text using Optical Character Recognition (OCR), and tracks vehicles across video frames.
 
-The project combines deep learning and computer vision technologies to provide accurate license plate recognition for surveillance, smart transportation, parking management, toll systems, and traffic monitoring. :contentReference[oaicite:0]{index=0}
+The system combines deep learning, computer vision, and OCR technologies to deliver accurate and efficient license plate recognition for intelligent transportation, surveillance, parking management, toll collection, and traffic monitoring.
 
 ---
 
-# Features
+## Features
 
 - Real-time vehicle detection
 - Automatic license plate detection
 - OCR-based license plate recognition
-- Vehicle tracking across frames
-- Live camera and video file support
+- Multi-vehicle tracking
+- Live webcam and video file support
 - Interactive graphical user interface
-- Real-time performance dashboard
+- Real-time system dashboard
 - Automatic CSV report generation
 - Output video generation
 - Automatic screenshot capture
 - GPU acceleration support
 - Automatic model download
+- Confidence-based recognition
+- Optimized inference pipeline
 
 ---
 
-# Technology Stack
+## Technology Stack
 
 - Python
 - YOLOv8
@@ -45,10 +47,10 @@ The project combines deep learning and computer vision technologies to provide a
 
 ---
 
-# Project Structure
+## Project Structure
 
-```
-AI-License-Plate-System/
+```text
+License-Plate-Recognition-System/
 │
 ├── output_anpr/
 │   ├── output.mp4
@@ -63,80 +65,83 @@ AI-License-Plate-System/
 
 ---
 
-# System Architecture
+## System Architecture
 
-```
-Camera / Video
-      │
-      ▼
+```text
+Input Video / Webcam
+        │
+        ▼
 Vehicle Detection (YOLOv8)
-      │
-      ▼
+        │
+        ▼
 Vehicle Tracking
-      │
-      ▼
+        │
+        ▼
 License Plate Detection
-      │
-      ▼
-OCR (EasyOCR)
-      │
-      ▼
-License Plate Extraction
-      │
-      ▼
-CSV Logging
-      │
-      ▼
-Live Dashboard & Output Video
+        │
+        ▼
+Image Preprocessing
+        │
+        ▼
+OCR Recognition (EasyOCR)
+        │
+        ▼
+Plate Text Extraction
+        │
+        ▼
+CSV Logging & Database
+        │
+        ▼
+Dashboard & Output Video
 ```
 
 ---
 
-# Installation
+## Installation
 
-Clone the repository
-
-```bash
-git clone https://github.com/yourusername/AI-License-Plate-System.git
-```
-
-Navigate to the project directory
+### Clone the repository
 
 ```bash
-cd AI-License-Plate-System
+git clone https://github.com/yourusername/License-Plate-Recognition-System.git
 ```
 
-Install dependencies
+### Navigate to the project directory
+
+```bash
+cd License-Plate-Recognition-System
+```
+
+### Install the required dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the project
+### Run the application
 
 ```bash
 python main.py
 ```
 
-The application automatically downloads the required YOLOv8 license plate detection model if it is not available.
+The application automatically downloads the required YOLOv8 license plate detection model if it is not already available.
 
 ---
 
-# Usage
+## Usage
 
-Run using webcam
+### Webcam
 
 ```bash
 python main.py
 ```
 
-Run using a video file
+### Video File
 
 ```bash
 python main.py video.mp4
 ```
 
-Run with custom parameters
+### Custom Parameters
 
 ```bash
 python main.py video.mp4 --every 2 --ocr-recheck 45 --max-ocr 3
@@ -144,85 +149,72 @@ python main.py video.mp4 --every 2 --ocr-recheck 45 --max-ocr 3
 
 ---
 
-# Output
+## Output
 
-The application generates:
+The application automatically generates:
 
 - Annotated output video
-- CSV file containing detected license plates
+- CSV file containing recognized license plates
 - Vehicle tracking information
 - Automatic screenshots
-- Live dashboard with statistics
+- Real-time dashboard statistics
 
 ---
 
-# Performance
+## Performance
 
-- High-speed real-time detection
-- Multi-vehicle tracking
-- Accurate OCR recognition
-- GPU and CPU support
+- High-speed real-time inference
+- Accurate vehicle detection
+- Reliable license plate localization
+- OCR-based text extraction
+- Multi-object tracking
+- GPU and CPU compatibility
 - Confidence-based recognition
-- Optimized inference pipeline
+- Optimized processing pipeline
 
 ---
 
-# Applications
+## Applications
 
-- Smart Traffic Management
-- Toll Plaza Automation
-- Parking Management Systems
-- Vehicle Access Control
-- Smart City Infrastructure
-- Security Surveillance
+- Intelligent Traffic Management
+- Smart Parking Systems
+- Toll Collection Automation
 - Campus Vehicle Monitoring
+- Residential Security
 - Law Enforcement
+- Smart City Infrastructure
+- Vehicle Access Control
+- Industrial Security
+- Transportation Analytics
 
 ---
 
-# Future Enhancements
+## Future Enhancements
 
 - Vehicle speed estimation
-- Face recognition integration
 - Automatic violation detection
-- Cloud database integration
-- REST API support
+- Face recognition integration
+- Cloud database support
+- REST API integration
 - Mobile application
 - Multi-camera monitoring
-- AI analytics dashboard
+- Web dashboard
+- AI analytics
+- License plate database search
 
 ---
 
-# Developer
+## Requirements
 
-**Annam Pranav Reddy**
-
-B.Tech in Computer Science Engineering
-
-**Areas of Interest**
-
-- Artificial Intelligence
-- Computer Vision
-- Machine Learning
-- Robotics
-- Intelligent Transportation Systems
-- Smart Surveillance
-
-GitHub: https://github.com/yourusername
-
-LinkedIn: https://linkedin.com/in/yourprofile
+- Python 3.10 or later
+- Webcam or CCTV camera (optional)
+- CUDA-enabled GPU (optional)
+- Windows, Linux, or macOS
 
 ---
+## Acknowledgements
 
-# License
-
-This project is licensed under the MIT License.
-
----
-
-# Acknowledgements
-
-This project is built using the following open-source technologies:
+This project is developed using the following open-source technologies:
 
 - Ultralytics YOLOv8
 - OpenCV
@@ -231,4 +223,8 @@ This project is built using the following open-source technologies:
 - Pandas
 - Pillow
 - Tkinter
-```
+- Colorama
+- tqdm
+
+---
+**Annam Pranav Reddy**
