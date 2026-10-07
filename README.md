@@ -92,9 +92,7 @@ The `frontend/` folder is static and can be deployed to Vercel. If deployed sepa
 
 YOLO + PyTorch + EasyOCR are heavy Python dependencies and model files. A persistent Python service is much more suitable for this workload than a serverless function. Vercel is best used here for the browser frontend.
 
-## Model licensing / provenance
+## Model licensing
 
-The dedicated plate detector is downloaded from:
-https://github.com/Muhammad-Zeerak-Khan/Automatic-License-Plate-Recognition-using-YOLOv8
 
 That repository states the project is MIT licensed and uses a YOLOv8 vehicle model, a dedicated license-plate detector, and EasyOCR. Review the upstream model/license terms before commercial use.
