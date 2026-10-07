@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Traffic Violation | ANPR</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,sans-serif;color:#e7eaf0;background:#0b0f16}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#162033,#0b0f16 50%);min-height:100vh}
+.container{max-width:1180px;margin:auto;padding:28px 20px}
+header{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.brand{font-size:22px;font-weight:800}.badge{font-size:12px;border:1px solid #2b3a50;padding:7px 10px;border-radius:999px;color:#72f0a8}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;margin-top:24px}
+.card{background:rgba(18,24,35,.88);border:1px solid #253044;border-radius:18px;padding:20px;box-shadow:0 18px 50px #0005}
+h1{font-size:42px;line-height:1.05;margin:30px 0 10px}.muted{color:#94a3b8}
+.drop{border:1px dashed #465671;border-radius:14px;padding:30px;text-align:center;margin-top:18px}
+input[type=file]{width:100%;padding:12px;background:#101722;color:#dbe4f0;border-radius:10px}
+select,button{border-radius:10px;padding:11px 14px;border:1px solid #334155;background:#111827;color:#fff}
+button{cursor:pointer;background:#2563eb;border-color:#2563eb;font-weight:700}
+button:disabled{opacity:.55;cursor:wait}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.result{margin-top:18px}.metric{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric div{background:#0e1520;border-radius:12px;padding:14px}.metric strong{display:block;font-size:20px;margin-top:4px}
+.status{margin-top:12px;min-height:22px}.danger{color:#ff7070}.success{color:#72f0a8}
+.preview{width:100%;margin-top:18px;border-radius:12px;border:1px solid #273449}
+.history{margin-top:20px}.row{display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid #202b3c;padding:12px 0}.row:last-child{border:0}
+@media(max-width:850px){.grid{grid-template-columns:1fr}h1{font-size:34px}.metric{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+<header><div class="brand">🚦 Smart Traffic AI</div><div class="badge">YOLO + ANPR + OCR</div></header>
+<h1>Traffic violation intelligence.</h1>
+<p class="muted">Upload a traffic image. The system detects vehicles, locates license plates with a dedicated YOLO model, reads the plate with EasyOCR, and evaluates traffic violations.</p>
+
+<div class="grid">
+<section class="card">
+<h2>Analyze image</h2>
+<div class="drop">
+<input id="image" type="file" accept="image/*">
+<p class="muted">JPG, PNG or WEBP</p>
+</div>
+<div class="controls">
+<label>Signal
+<select id="signal"><option value="RED">RED</option><option value="GREEN">GREEN</option></select>
+</label>
+<button id="run" onclick="analyze()">Analyze Traffic</button>
+</div>
+<div id="status" class="status"></div>
+<div id="output"></div>
+</section>
+
+<section class="card">
+<h2>Recent detections</h2>
+<div id="history" class="history"><span class="muted">Loading...</span></div>
+</section>
+</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+async function analyze(){
+ const file=$("image").files[0]; if(!file){$("status").innerHTML='<span class="danger">Choose an image first.</span>';return;}
+ $("run").disabled=true;$("status").textContent="Running vehicle detection + license plate OCR...";
+ try{
+  const fd=new FormData();fd.append("image",file);fd.append("signal",$("signal").value);
+  const r=await fetch("/api/detect",{method:"POST",body:fd});const d=await r.json();
+  if(!r.ok||d.status==="error")throw new Error(d.message||"Detection failed");
+  const plates=d.plates||[];
+  $("output").innerHTML=`
+   <div class="result metric">
+    <div>Plate<strong>${esc(d.plate||"Not detected")}</strong></div>
+    <div>OCR confidence<strong>${(Number(d.plate_confidence||0)*100).toFixed(1)}%</strong></div>
+    <div>Vehicles<strong>${d.vehicles?.length||0}</strong></div>
+   </div>
+   <p><b>Signal:</b> ${esc(d.signal)}</p>
+   <p><b>Violations:</b> ${d.violations.map(esc).join(", ")}</p>
+   ${plates.length?plates.map(p=>`<p class="muted">Plate ${esc(p.plate||"Unreadable")} · OCR ${(Number(p.ocr_confidence)*100).toFixed(1)}% · detector ${(Number(p.plate_confidence)*100).toFixed(1)}%</p>`).join(""):""}
+   ${d.image_base64?`<img class="preview" src="data:image/jpeg;base64,${d.image_base64}">`:""}`;
+  $("status").innerHTML='<span class="success">Analysis complete.</span>';loadHistory();
+ }catch(e){$("status").innerHTML='<span class="danger">Error: '+esc(e.message)+'</span>'}
+ finally{$("run").disabled=false}
+}
+async function loadHistory(){
+ try{const d=await (await fetch("/api/history")).json();
+ $("history").innerHTML=(d.items||[]).map(x=>`<div class="row"><div><b>${esc(x.plate||"Unreadable")}</b><br><span class="muted">${esc(x.violations?.join(", "))}</span></div><span class="muted">${new Date(x.timestamp).toLocaleString()}</span></div>`).join("")||'<span class="muted">No detections yet.</span>';
+ }catch{ $("history").innerHTML='<span class="muted">History unavailable.</span>'; }
+}
+loadHistory();
+</script>
+</body>
+</html>

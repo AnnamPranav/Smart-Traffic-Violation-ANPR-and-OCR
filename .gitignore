@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+.vercel/
+.DS_Store
+data/violations.json
+data/evidence/*
+!data/evidence/.gitkeep
+backend/models/*.pt
