@@ -62,7 +62,7 @@ async function analyze(){
  $("run").disabled=true;$("status").textContent="Running vehicle detection + license plate OCR...";
  try{
   const fd=new FormData();fd.append("image",file);fd.append("signal",$("signal").value);
-  const r=await fetch("/api/detect",{method:"POST",body:fd});const d=await r.json();
+  const r=await fetch("https://smart-traffic-violation-anpr-and-ocr.onrender.com/api/detect",{method:"POST",body:fd});const d=await r.json();
   if(!r.ok||d.status==="error")throw new Error(d.message||"Detection failed");
   const plates=d.plates||[];
   $("output").innerHTML=`
@@ -80,7 +80,7 @@ async function analyze(){
  finally{$("run").disabled=false}
 }
 async function loadHistory(){
- try{const d=await (await fetch("/api/history")).json();
+ try{const d=await (await fetch("https://smart-traffic-violation-anpr-and-ocr.onrender.com/api/history")).json();
  $("history").innerHTML=(d.items||[]).map(x=>`<div class="row"><div><b>${esc(x.plate||"Unreadable")}</b><br><span class="muted">${esc(x.violations?.join(", "))}</span></div><span class="muted">${new Date(x.timestamp).toLocaleString()}</span></div>`).join("")||'<span class="muted">No detections yet.</span>';
  }catch{ $("history").innerHTML='<span class="muted">History unavailable.</span>'; }
 }
